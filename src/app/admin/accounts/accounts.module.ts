@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
-import { AccountsRoutingModule } from './accounts/accounts-routing.module';
+import { AccountsRoutingModule } from './accounts-routing.module';
 import { ListComponent } from './list.component';
 import { AddEditComponent } from './add-edit.component';
 
@@ -10,6 +11,7 @@ import { AddEditComponent } from './add-edit.component';
     imports: [
         CommonModule,
         ReactiveFormsModule,
+        RouterModule,
         AccountsRoutingModule
     ],
     declarations: [

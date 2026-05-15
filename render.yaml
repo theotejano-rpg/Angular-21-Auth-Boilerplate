@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: angular-21-auth-boilerplate
+    runtime: static
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    staticPublishPath: dist/angular-21-auth-boilerplate/browser
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.0A

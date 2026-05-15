@@ -1,9 +1,10 @@
 services:
   - type: web
-    name: angular-21-auth-boilerplate
-    runtime: static
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    name: Angular-21-Auth-Boilerplate
+    env: static
+    buildCommand: npm install && npm run build
     staticPublishPath: dist/angular-21-auth-boilerplate/browser
-    envVars:
-      - key: NODE_VERSION
-        value: 20.11.0A
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

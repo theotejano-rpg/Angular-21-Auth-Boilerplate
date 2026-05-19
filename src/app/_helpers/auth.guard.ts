@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { AccountService } from '@app/_services';
 
@@ -10,22 +13,29 @@ export class AuthGuard implements CanActivate {
         private accountService: AccountService
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
         const account = this.accountService.accountValue;
         if (account) {
-            // check if route is restricted by role
-            if (route.data.roles && !route.data.roles.includes(account.role)) {
-                // role not authorized so redirect to home page
+            if (route.data['roles'] && !route.data['roles'].includes(account.role)) {
                 this.router.navigate(['/']);
                 return false;
             }
-
-            // authorized so return true
             return true;
         }
 
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/account/login'], { queryParams: { returnUrl: state.url } });
-        return false;
+        // Try to refresh token before redirecting
+        return this.accountService.refreshToken().pipe(
+            map(account => {
+                if (route.data['roles'] && !route.data['roles'].includes(account.role)) {
+                    this.router.navigate(['/']);
+                    return false;
+                }
+                return true;
+            }),
+            catchError(() => {
+                this.router.navigate(['/account/login'], { queryParams: { returnUrl: state.url } });
+                return of(false);
+            })
+        );
     }
 }

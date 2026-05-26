@@ -5,6 +5,7 @@
     "projects": {
         "angular-15-example": {
             "projectType": "application",
+              "root": "",
             "schematics": {
                 "@schematics/angular:component": {
                     "style": "css"
@@ -68,15 +69,14 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "buildTarget": "angular-15-example:build:development"
+                         "browserTarget": "angular-15-example:build:development"
                     },
                     "configurations": {
                         "production": {
-                            "buildTarget": "angular-15-example:build:production"
+                            "browserTarget": "angular-15-example:build:production"
                         },
                         "development": {
-                            "buildTarget": "angular-15-example:build:development"
-                        }
+                            "browserTarget": "angular-15-example:build:development"
                     },
                     "defaultConfiguration": "development"
                 },
@@ -108,6 +108,10 @@
         }
     },
     "cli": {
+        "root": "",
         "analytics": false
     }
+},
+"cli": {
+  "analytics": false
 }
